@@ -28,13 +28,13 @@ public class Curso  {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name = "CODCURSO")
     private String codCurso;
-    @Column
+    @Column(name = "NOMBRE")
     private String nombre;
-    @Column
+    @Column(name = "DURACION")
     private int duracion;
-    @Column
+    @Column(name = "PRECIO")
     private BigDecimal precio;
 
 

@@ -12,6 +12,8 @@ import cr.ac.una.andrey.domain.Curso;
 public interface CursoRepository extends JpaRepository<Curso, Long> {
 
     Curso findOneByCodCurso(String codCurso);
+    
+    Curso findOneByNombre(String nombre);
 
     List<Curso> findByPrecioGreaterThanAndPrecioLessThan(BigDecimal precioDesde, BigDecimal precioHasta);
 }

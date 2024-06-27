@@ -19,6 +19,8 @@ public interface CursoService {
     void delete(Long id) throws Exception;  
 
     Curso findOneByCodCurso(String codCurso) throws Exception;
+    
+    Curso findOneByNombre(String nombre);
 
     List<Curso> findByPrecioGreaterThanAndPrecioLessThan(BigDecimal precioDesde, BigDecimal precioHasta);
 }

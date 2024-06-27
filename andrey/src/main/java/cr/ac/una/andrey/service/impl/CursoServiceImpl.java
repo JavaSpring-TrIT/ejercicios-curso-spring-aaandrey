@@ -102,6 +102,12 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    public Curso findOneByNombre(String nombre) {
+        Curso curso = cursoRepository.findOneByNombre(nombre);
+        return curso;
+    }
+
+    @Override
     public List<Curso> findByPrecioGreaterThanAndPrecioLessThan(BigDecimal precioDesde, BigDecimal precioHasta) {
         List<Curso> cursos = cursoRepository.findByPrecioGreaterThanAndPrecioLessThan(precioDesde, precioHasta);
 

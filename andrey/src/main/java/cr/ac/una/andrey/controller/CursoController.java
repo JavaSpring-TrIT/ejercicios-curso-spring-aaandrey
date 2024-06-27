@@ -129,7 +129,7 @@ public class CursoController {
      * Maneja la solicitud HTTP GET para obtener una entidad de tipo <E> según una
      * identificación
      *
-     * @param id identificación de la entidad.
+     * @param codCurso de la entidad.
      * @return ResponseEntity objeto {@code Response} con el estado de la operación.
      * @throws Exception si ocurre un error durante el proceso de obtener la
      *                   entidad.
@@ -140,6 +140,24 @@ public class CursoController {
         Curso data = this.service.findOneByCodCurso(codCurso);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Message", "Se consulto por codigo correctamente");
+        return new ResponseEntity<Curso>(data, responseHeaders, HttpStatus.ACCEPTED);
+    }    
+
+    /**
+     * Maneja la solicitud HTTP GET para obtener una entidad de tipo <E> según una
+     * identificación
+     *
+     * @param nombre de la entidad.
+     * @return ResponseEntity objeto {@code Response} con el estado de la operación.
+     * @throws Exception si ocurre un error durante el proceso de obtener la
+     *                   entidad.
+     */
+    @GetMapping(path = "/byNombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Curso> findOneByNombre(@PathVariable(name = "nombre") String nombre) throws Exception {
+
+        Curso data = this.service.findOneByNombre(nombre);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Message", "Se consulto por nombre correctamente");
         return new ResponseEntity<Curso>(data, responseHeaders, HttpStatus.ACCEPTED);
     }    
 
