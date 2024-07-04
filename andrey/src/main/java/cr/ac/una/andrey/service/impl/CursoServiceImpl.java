@@ -67,8 +67,9 @@ public class CursoServiceImpl implements CursoService {
 
         if (CursoOpcional.isPresent()) {
             Curso CursoOriginal = CursoOpcional.get();
-            CursoOriginal.setNombre(curso.getNombre());;
-            CursoOriginal.setDuracion(curso.getDuracion());;
+            CursoOriginal.setNombre(curso.getNombre());
+            CursoOriginal.setDuracion(curso.getDuracion());
+            CursoOriginal.setPrecio(curso.getPrecio());
 
             return cursoRepository.save(CursoOriginal);
 
