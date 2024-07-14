@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cr.ac.una.andrey.domain.Curso;
 import cr.ac.una.andrey.service.CursoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
 @RestController
@@ -53,8 +55,11 @@ public class CursoController {
      * @throws Exception                si ocurre un error durante el proceso de
      *                                  guardar la entidad.
      */
+    @Operation(summary = "Guarda el registro de curso", description = "Almacena el registro de curso")
     @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<Curso> save(@Valid @RequestBody Curso curso, BindingResult result) throws Exception {
+    public Collection<Curso> save(
+            @Parameter(description = "Objeto con la información del curso") @RequestBody Curso curso,
+            BindingResult result) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         System.out.println("Username: " + userDetails.getUsername());
@@ -74,8 +79,11 @@ public class CursoController {
      * @throws Exception si ocurre un error durante el proceso de obtener la
      *                   entidad.
      */
+    @Operation(summary = "Busca el curso por medio de id", description = "Localiza el curso de acuerdo el id")
     @GetMapping(path = "/byId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Curso> findOneById(@PathVariable(name = "id") Long id) throws Exception {
+    public ResponseEntity<Curso> findOneById(
+            @Parameter(description = "id del curso que se desea buscar") @PathVariable(name = "id") Long id)
+            throws Exception {
 
         Curso data = this.service.findById(id);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -91,6 +99,7 @@ public class CursoController {
      * @return Collection
      * @throws na
      */
+    @Operation(summary = "Busca todos los cursos", description = "Lista todos los cursos")
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Curso> findAll() {
 
@@ -110,9 +119,12 @@ public class CursoController {
      * @throws Exception                si ocurre un error durante el proceso de
      *                                  actualizar la entidad.
      */
+    @Operation(summary = "Actualiza el curso de acuerdo al que recibe", description = "Modifica el curso")
     @PutMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void update(@Valid @RequestBody Curso entity, BindingResult result) throws Exception {
+    public void update(
+            @Parameter(description = "Curso que se desea modificar con la información nueva") @Valid @RequestBody Curso entity,
+            BindingResult result) throws Exception {
         Curso data = this.service.update(entity);
     }
 
@@ -124,8 +136,10 @@ public class CursoController {
      * @throws Exception si ocurre un error durante el proceso de eliminar la
      *                   entidad.
      */
+    @Operation(summary = "Borra el curso por medio de id", description = "Elimina el curso de acuerdo el id")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<Curso> deleteOneById(@PathVariable(name = "id") Long id) throws Exception {
+    public Collection<Curso> deleteOneById(
+            @Parameter(description = "Id del curso a eliminar") @PathVariable(name = "id") Long id) throws Exception {
 
         this.service.delete(id);
         Collection<Curso> data = this.service.findAll();
@@ -141,14 +155,17 @@ public class CursoController {
      * @throws Exception si ocurre un error durante el proceso de obtener la
      *                   entidad.
      */
+    @Operation(summary = "Busca el curso por medio del codCurso", description = "Localiza el curso de acuerdo al codCurso")
     @GetMapping(path = "/{codCurso}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Curso> findOneByCodCurso(@PathVariable(name = "codCurso") String codCurso) throws Exception {
+    public ResponseEntity<Curso> findOneByCodCurso(
+            @Parameter(description = "CodCurso del curso a buscar") @PathVariable(name = "codCurso") String codCurso)
+            throws Exception {
 
         Curso data = this.service.findOneByCodCurso(codCurso);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Message", "Se consulto por codigo correctamente");
         return new ResponseEntity<Curso>(data, responseHeaders, HttpStatus.ACCEPTED);
-    }    
+    }
 
     /**
      * Maneja la solicitud HTTP GET para obtener una entidad de tipo <E> según una
@@ -159,14 +176,17 @@ public class CursoController {
      * @throws Exception si ocurre un error durante el proceso de obtener la
      *                   entidad.
      */
+    @Operation(summary = "Busca el curso por medio del nombre", description = "Localiza el curso de acuerdo al nombre")
     @GetMapping(path = "/byNombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Curso> findOneByNombre(@PathVariable(name = "nombre") String nombre) throws Exception {
+    public ResponseEntity<Curso> findOneByNombre(
+            @Parameter(description = "Nombre del curso a buscar") @PathVariable(name = "nombre") String nombre)
+            throws Exception {
 
         Curso data = this.service.findOneByNombre(nombre);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Message", "Se consulto por nombre correctamente");
         return new ResponseEntity<Curso>(data, responseHeaders, HttpStatus.ACCEPTED);
-    }    
+    }
 
     /**
      * Maneja la solicitud HTTP GET para obtener todos los registros de una entidad
@@ -176,8 +196,11 @@ public class CursoController {
      * @return Collection
      * @throws na
      */
+    @Operation(summary = "Busca el curso de acuerdo al precio, recibe el precio desde y hasta", description = "Localiza el curso de acuerdo al precio, recibe el precio desde y hasta")
     @GetMapping(path = "/{precioDesde}/{precioHasta}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<Curso> findAllByPrecio(@PathVariable(name = "precioDesde") BigDecimal precioDesde, @PathVariable(name = "precioHasta") BigDecimal precioHasta) {
+    public Collection<Curso> findAllByPrecio(
+            @Parameter(description = "PrecioDesde del curso a buscar") @PathVariable(name = "precioDesde") BigDecimal precioDesde,
+            @Parameter(description = "PrecioHasta del curso a buscar") @PathVariable(name = "precioHasta") BigDecimal precioHasta) {
 
         Collection<Curso> data = this.service.findByPrecioGreaterThanAndPrecioLessThan(precioDesde, precioHasta);
         return data;
